@@ -1656,7 +1656,7 @@ mean(attitude$rating)</code></pre>
 mcar_units &lt;- sample(x = c(TRUE, FALSE),
                      size = nrow(attitude),
                      replace = TRUE,
-                     prob = c(0.9, 0.1))
+                     prob = c(0.8, 0.2))
 
 # Make a new variable where if mcar_units is TRUE, we make the rating missing
 attitude$rating_mcar &lt;- ifelse(mcar_units, attitude$rating, -99)
@@ -1664,11 +1664,11 @@ attitude$rating_mcar &lt;- ifelse(mcar_units, attitude$rating, -99)
 # Look the summary of outcomes
 table(attitude$rating_mcar == -99)</code></pre>
 <pre><code>## 
-## FALSE 
-##    30</code></pre>
+## FALSE  TRUE 
+##    28     2</code></pre>
 <pre class="r"><code># Look at the mean without the missings
 mean(attitude$rating_mcar[!attitude$rating_mcar == -99])</code></pre>
-<pre><code>## [1] 64.63333</code></pre>
+<pre><code>## [1] 64.57143</code></pre>
 <p>Because our units are missing completely at random, missingness is independent of the outcome. We can <em>mean-impute</em> by plugging-in the expected value of the non-missing outcome for the missing units.</p>
 <pre class="r"><code># Plug in the expected value (i.e., mean) of the non-missing outcomes
 attitude$rating_mcar[attitude$rating_mcar == -99] &lt;-
@@ -1678,7 +1678,7 @@ attitude$rating_mcar[attitude$rating_mcar == -99] &lt;-
 # We can either mean-impute or just ignore the NAs
 # Mean-impute might be more helpful when you&#39;re worried about list-wise deletion
 mean(attitude$rating_mcar)</code></pre>
-<pre><code>## [1] 64.63333</code></pre>
+<pre><code>## [1] 64.57143</code></pre>
 <pre class="r"><code># Let&#39;s remove the rating_mcar variable
 attitude$rating_mcar &lt;- NULL</code></pre>
 </div>
